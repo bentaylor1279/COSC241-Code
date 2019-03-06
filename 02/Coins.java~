@@ -1,0 +1,131 @@
+package week02;
+
+import java.util.Random;
+
+/**
+ * Coins.java - a simple class that creates and manipulates arrays of
+ * boolean values that represent coin tosses.
+ * @author Mitch Abel
+ */
+public class Coins{
+    /**
+     * Declares the variable HEADS to represent the boolean true.
+     */
+    public static final boolean HEADS = true;
+    /**
+     * Declares the variable TALES to represent the boolean false.
+     */
+    public static final boolean TAILS = false;
+
+    /**
+     * Declares the boolean array coins.
+     */
+    private boolean[] coins;
+    
+    /**
+     * Constructor that creates a coins object from an existing array.
+     * @param coins represents the array being passed to the constructor.
+     */
+    public Coins(boolean[] coins) {
+        this.coins = coins;
+    }
+    
+    /**
+     * Constructor that creates a Coins object from a String consisting
+     * entirely of the characters "H" and "T".
+     * @param c represents the String being passed to the consructor.
+     */
+    public Coins(String c) {
+        coins = new boolean[c.length()];
+        for (int i=0; i<c.length(); i++) {
+            if (c.substring(i,i+1).equals("H")) {
+                coins[i] = HEADS;
+            } else {
+                coins[i] = TAILS;
+            }
+        }
+    }
+    
+    /**
+     * Counstuctor that creates a Coins object consisting of a
+     * specified ammount of random heads or tails values.
+     * @param length represents the number of coin flips that will be
+     * in the array.
+     */
+    public Coins(int length) {
+        coins = new boolean[length];
+        Random flip = new Random();
+        for (int i=0; i<length; i++) {
+            int result = flip.nextInt(2);
+            if (result == 1) {
+                coins[i] = HEADS;
+            } else {
+                coins[i] = TAILS;
+            }
+        }
+    }
+    
+    /**
+     * Counts the number of times that a heads coin appears in the array.
+     * @return An int data type representing the ammount head coin flips.
+     */
+    public int countHeads() {
+        int count = 0;
+        for (int i=0; i<coins.length; i++) {
+            if (coins[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    /**
+     * Converts a Coins array to a String consisting of "H" and "T".
+     * @return A String data type representing the array in "H" and "T".
+     */
+    public String toString() {
+        String cointosses = "";
+        for (int i=0; i<coins.length; i++) {
+            if (coins[i]) {
+                cointosses = cointosses + "H";
+            }else {
+                cointosses = cointosses + "T";
+            }
+        }
+        return cointosses;
+    }
+    
+    /**
+     * Counts the number of runs in a sequecne of coins.
+     * A run is a block of coins showing the same face.
+     * @return An int data type representing the amount of runs in the array.
+     */
+    public int countRuns() {
+        int runs = 1;
+        for (int i=0; i<coins.length; i++) {
+            if (i == coins.length-1) {
+                if (coins[i] != coins[i-1]) {
+                    runs ++;
+                }
+            }
+            else if (coins[i] != coins[i+1]) {
+                runs ++;
+            }
+        }
+        return runs;
+    }
+                   
+                
+    /**
+     * Main method used for testing purposes.
+     * @param args Unused
+     */
+    public static void main (String[] args) {
+        boolean[] b = {HEADS, TAILS, HEADS, HEADS, TAILS};
+        String d = "HTHHT";
+        Coins c = new Coins(10);
+        System.out.println(c.toString());
+        System.out.println(c.countRuns());
+    }
+
+}
